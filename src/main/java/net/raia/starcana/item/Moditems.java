@@ -9,10 +9,11 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.raia.starcana.Starcana;
+import net.raia.starcana.abilities.StarShardItem;
 
 public class Moditems {
 
-    public static final Item STAR_SHARD = registerItem("star_shard", new Item(new FabricItemSettings()));
+    public static final Item STAR_SHARD = registerItem("star_shard", new StarShardItem(new FabricItemSettings()));
 
     private  static  void  addItemsToIngredientItemGroup(FabricItemGroupEntries entries){
         entries.add(STAR_SHARD);
@@ -24,8 +25,6 @@ public class Moditems {
 
     public static void registerModItems() {
         Starcana.LOGGER.info("registering Mod items for "+ Starcana.MOD_ID);
-
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(Moditems::addItemsToIngredientItemGroup);
     }
 
 }
