@@ -26,8 +26,6 @@ public class StarShardItem extends Item implements ParticleEmitterHandler.ItemPa
         float time = level.getTime() + partialTick;
         Color firstColor = new Color(231, 160, 180);
         Color secondColor = new Color(242, 205, 206);
-        final int yOffset = 2;
-        final int xOffset = 2;
         final SpinParticleDataBuilder spinDataBuilder = SpinParticleData.create(0, 1).setSpinOffset(0.025f * time % 6.28f).setEasing(Easing.EXPO_IN_OUT);
         ScreenParticleBuilder.create(LodestoneScreenParticleRegistry.TWINKLE, target)
                 .setTransparencyData(GenericParticleData.create(0.09f, 0f).setEasing(Easing.QUAD_OUT, Easing.SINE_OUT).build())
