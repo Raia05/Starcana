@@ -9,13 +9,14 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.raia.starcana.Starcana;
 
-public class ModItemGroups {
+public class StarcanaItemGroups {
 
     public static final ItemGroup STARCANA_GROUP = Registry.register(Registries.ITEM_GROUP,
             new Identifier(Starcana.MOD_ID, "starcana"),
             FabricItemGroup.builder().displayName(Text.translatable("itemgroup.starcana"))
-                    .icon(() -> new ItemStack(Moditems.STAR_SHARD)).entries((displayContext, entries) -> {
-                        entries.add(Moditems.STAR_SHARD);
+                    .icon(() -> new ItemStack(Starcanaitems.STAR_SHARD)).entries((displayContext, entries) -> {
+                        entries.add(Starcanaitems.STAR_SHARD);
+                        entries.add(Starcanaitems.DEBUG_WAND);
 
 
                     }).build());
