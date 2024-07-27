@@ -55,7 +55,7 @@ public class FallenStarRenderer extends EntityRenderer<FallenStarEntity> {
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rayRotation));
 
 
-            float radius = random.nextFloat() * 5.0F + 5.0F + m * 2.0F;
+            float radius = random.nextFloat() * 2.5F + 2.5F + m * 2.0F;
             float width = 2F;
             Matrix4f matrix4f = matrices.peek().getPositionMatrix();
             int alpha = (int) (255.0F * (1.0F - m));
@@ -73,7 +73,7 @@ public class FallenStarRenderer extends EntityRenderer<FallenStarEntity> {
         }
         matrices.pop();
         WorldParticleBuilder.create(LodestoneParticleRegistry.SPARK_PARTICLE)
-                .setScaleData(GenericParticleData.create((2f + entity.getWorld().random.nextFloat() / 3f)).build())
+                .setScaleData(GenericParticleData.create((1f + entity.getWorld().random.nextFloat() / 3f)).build())
                 .setColorData(ColorParticleData.create(StarcanaColors.Magenta[2], StarcanaColors.Magenta[6]).build())
                 .setLifetime(10)
                 .setSpinData(SpinParticleData.create((float) (entity.getWorld().random.nextGaussian() / 10000f)).setSpinOffset(entity.getWorld().random.nextFloat() * 360f).build())
