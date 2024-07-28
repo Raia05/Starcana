@@ -3,5 +3,6 @@
   "item.starcana.debug_wand": "Debug Wand",
   "itemgroup.starcana": "Starcana",
   "entity.starcana.fallen_star": "Fallen Star",
-  "entity.starcana.shooting_star": "Shooting Star"
+  "entity.starcana.shooting_star": "Shooting Star",
+  "effect.starcana.star_searcher": "Star Searcher"
 }
