@@ -7,12 +7,17 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.raia.starcana.Starcana;
 import net.raia.starcana.emitters.Particle_debugging;
+import net.raia.starcana.item.itemTypes.StarProngItem;
 import net.raia.starcana.item.itemTypes.StarShardItem;
+
+import static net.minecraft.util.Rarity.EPIC;
 
 public class Starcanaitems {
 
     public static final Item STAR_SHARD = registerItem("star_shard", new StarShardItem(new FabricItemSettings()));
     public static final Item DEBUG_WAND = registerItem("debug_wand", new Particle_debugging(new FabricItemSettings()));
+    public static final Item STAR_PRONG = registerItem("star_prong", new StarProngItem(new FabricItemSettings().maxDamage(1200).rarity(EPIC)));
+
 
 
     private  static Item registerItem(String name, Item item){

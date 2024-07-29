@@ -17,6 +17,7 @@ public class StarcanaItemGroups {
                     .icon(() -> new ItemStack(Starcanaitems.STAR_SHARD)).entries((displayContext, entries) -> {
                         entries.add(Starcanaitems.STAR_SHARD);
                         entries.add(Starcanaitems.DEBUG_WAND);
+                        entries.add(Starcanaitems.STAR_PRONG);
 
 
                     }).build());
