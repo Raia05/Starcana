@@ -1,5 +1,7 @@
 package net.raia.starcana.entity.client;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -9,7 +11,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.raia.starcana.client.StarBeam;
+import net.raia.starcana.effect.StarcanaEffects;
 import net.raia.starcana.entity.mobs.FallenStarEntity;
 import net.raia.starcana.utils.StarcanaColors;
 import org.joml.Matrix4f;
@@ -18,7 +21,6 @@ import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
-import team.lodestar.lodestone.systems.particle.render_types.LodestoneWorldParticleRenderType;
 import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 
 public class FallenStarRenderer extends EntityRenderer<FallenStarEntity> {
@@ -79,6 +81,15 @@ public class FallenStarRenderer extends EntityRenderer<FallenStarEntity> {
                 .setSpinData(SpinParticleData.create((float) (entity.getWorld().random.nextGaussian() / 10000f)).setSpinOffset(entity.getWorld().random.nextFloat() * 360f).build())
                 .spawn(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
 
+        assert MinecraftClient.getInstance().player != null;
+        if (MinecraftClient.getInstance().player.hasStatusEffect(StarcanaEffects.STAR_SEARCHER))
+        {
+            matrices.push();
+            StarBeam.renderBeam(matrices, 0.5f, 0f, 0.5f, 1, entity);
+            matrices.pop();
+        }
+
+
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
     }
 
@@ -101,5 +112,10 @@ public class FallenStarRenderer extends EntityRenderer<FallenStarEntity> {
     @Override
     public Identifier getTexture(FallenStarEntity entity) {
         return null;
+    }
+
+    @Override
+    public boolean shouldRender(FallenStarEntity entity, Frustum frustum, double x, double y, double z) {
+        return true;
     }
 }
