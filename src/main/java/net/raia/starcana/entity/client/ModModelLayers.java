@@ -6,4 +6,6 @@ import net.raia.starcana.Starcana;
 
 public class ModModelLayers {
     public static final EntityModelLayer FALLEN_STAR_PROJ = new EntityModelLayer(new Identifier(Starcana.MOD_ID, "shooting_star"), "main");
+    public static final EntityModelLayer STAR_PRONG = new EntityModelLayer(new Identifier(Starcana.MOD_ID, "star_prong"), "main");
+
 }

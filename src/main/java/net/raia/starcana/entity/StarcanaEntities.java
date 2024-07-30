@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.raia.starcana.Starcana;
 import net.raia.starcana.entity.mobs.FallenStarEntity;
 import net.raia.starcana.entity.mobs.FallenStarProjectile;
+import net.raia.starcana.entity.mobs.StarProngEntity;
 
 public class StarcanaEntities
 {
@@ -22,4 +23,9 @@ public class StarcanaEntities
                 new Identifier(Starcana.MOD_ID, "shooting_star"),
                 FabricEntityTypeBuilder.<FallenStarProjectile>create(SpawnGroup.MISC, FallenStarProjectile::new)
                         .dimensions(EntityDimensions.fixed(.25f,.25f)).build());
+
+        public static final EntityType<StarProngEntity> STAR_PRONG = Registry.register(Registries.ENTITY_TYPE,
+                new Identifier(Starcana.MOD_ID, "star_prong"),
+                FabricEntityTypeBuilder.<StarProngEntity>create(SpawnGroup.MISC, StarProngEntity::new)
+                        .dimensions(EntityDimensions.fixed(.25f,2f)).build());
 }
