@@ -1,0 +1,8 @@
+{
+  "prong_hit_ground": {
+    "subtitle": "sounds.starcana.prong_hit_ground",
+    "sounds": [
+      "starcana:prong/prong_hit_ground"
+    ]
+  }
+}

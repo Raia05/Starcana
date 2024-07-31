@@ -5,27 +5,37 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
+import net.minecraft.world.explosion.ExplosionBehavior;
 import net.raia.starcana.entity.StarcanaEntities;
 import net.raia.starcana.item.Starcanaitems;
+import net.raia.starcana.sounds.StarcanaSounds;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Predicate;
 
 public class StarProngEntity extends PersistentProjectileEntity {
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(StarProngEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -138,7 +148,7 @@ public class StarProngEntity extends PersistentProjectileEntity {
 
     @Override
     protected SoundEvent getHitSound() {
-        return SoundEvents.ITEM_TRIDENT_HIT_GROUND;
+        return StarcanaSounds.PRONG_HIT_GROUND;
     }
 
     @Override
@@ -173,6 +183,12 @@ public class StarProngEntity extends PersistentProjectileEntity {
     }
 
     @Override
+    protected void onBlockHit(BlockHitResult blockHitResult) {
+        knockbackNearbyEntities(this.getWorld(), this);
+        super.onBlockHit(blockHitResult);
+    }
+
+    @Override
     protected float getDragInWater() {
         return 0.99F;
     }
@@ -181,4 +197,58 @@ public class StarProngEntity extends PersistentProjectileEntity {
     public boolean shouldRender(double cameraX, double cameraY, double cameraZ) {
         return true;
     }
+
+
+    private void knockbackNearbyEntities(World world, Entity prong) {
+        world.getEntitiesByClass(LivingEntity.class, prong.getBoundingBox().expand(3.5), getKnockbackPredicate(this.getOwner(), prong)).forEach(entity -> {
+            Vec3d vec3d = entity.getPos().subtract(prong.getPos());
+            double d = getKnockback(entity, vec3d);
+            Vec3d vec3d2 = vec3d.normalize().multiply(d);
+            if (d > 0.0 && !this.isOwner(entity)) {
+                entity.addVelocity(vec3d2.x, 0.7F, vec3d2.z);
+
+            }
+        });
+    }
+    private static Predicate<LivingEntity> getKnockbackPredicate(Entity player, Entity attacked) {
+        return entity -> {
+            boolean bl;
+            boolean bl2;
+            boolean bl3;
+            boolean var10000;
+            label62: {
+                bl = !entity.isSpectator();
+                bl2 = entity != player && entity != attacked;
+                bl3 = !player.isTeammate(entity);
+                if (entity instanceof TameableEntity tameableEntity && tameableEntity.isTamed() && player.getUuid().equals(tameableEntity.getOwnerUuid())) {
+                    var10000 = true;
+                    break label62;
+                }
+
+                var10000 = false;
+            }
+
+            boolean bl4;
+            label55: {
+                bl4 = !var10000;
+                if (entity instanceof ArmorStandEntity armorStandEntity && armorStandEntity.isMarker()) {
+                    var10000 = false;
+                    break label55;
+                }
+
+                var10000 = true;
+            }
+
+            boolean bl5 = var10000;
+            boolean bl6 = attacked.squaredDistanceTo(entity) <= Math.pow(3.5, 2.0);
+            return bl && bl2 && bl3 && bl4 && bl5 && bl6;
+        };
+    }
+
+    private double getKnockback(LivingEntity attacked, Vec3d distance) {
+        return (3.5 - distance.length())
+                * 0.7F
+                * (1.0 - attacked.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
+    }
+
 }

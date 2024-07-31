@@ -5,6 +5,8 @@ import net.fabricmc.api.ModInitializer;
 import net.raia.starcana.effect.StarcanaEffects;
 import net.raia.starcana.item.StarcanaItemGroups;
 import net.raia.starcana.item.Starcanaitems;
+import net.raia.starcana.item.enchantments.StarcanaEnchantments;
+import net.raia.starcana.sounds.StarcanaSounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,8 @@ public class Starcana implements ModInitializer {
 		StarcanaItemGroups.registerItemGroups();
 		Starcanaitems.registerModItems();
 		StarcanaEffects.registerModEffects();
+		StarcanaSounds.registerSounds();
+		StarcanaEnchantments.registerModEnchantments();
 		LOGGER.info("Hello Fabric world!");
 	}
 }

@@ -27,5 +27,5 @@ public class StarcanaEntities
         public static final EntityType<StarProngEntity> STAR_PRONG = Registry.register(Registries.ENTITY_TYPE,
                 new Identifier(Starcana.MOD_ID, "star_prong"),
                 FabricEntityTypeBuilder.<StarProngEntity>create(SpawnGroup.MISC, StarProngEntity::new)
-                        .dimensions(EntityDimensions.fixed(.25f,2f)).build());
+                        .dimensions(EntityDimensions.fixed(.25f,.25f)).build());
 }
