@@ -2,6 +2,8 @@ package net.raia.starcana;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.raia.starcana.client.network.packets.StarcanaClientPackets;
+import net.raia.starcana.client.network.packets.StarcanaPackets;
 import net.raia.starcana.effect.StarcanaEffects;
 import net.raia.starcana.item.StarcanaItemGroups;
 import net.raia.starcana.item.Starcanaitems;
@@ -25,6 +27,9 @@ public class Starcana implements ModInitializer {
 		StarcanaEffects.registerModEffects();
 		StarcanaSounds.registerSounds();
 		StarcanaEnchantments.registerModEnchantments();
+
+		StarcanaPackets.registerPackets();
+		StarcanaClientPackets.registerClientPackets();
 		LOGGER.info("Hello Fabric world!");
 	}
 }
