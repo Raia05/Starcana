@@ -12,7 +12,7 @@ import net.raia.starcana.item.enchantments.Prong.SmashingEnchantment;
 public class StarcanaEnchantments {
 
     public static Enchantment SMASHING = register("smashing",
-            new SmashingEnchantment(Enchantment.Rarity.UNCOMMON, EnchantmentTarget.WEAPON, new EquipmentSlot[] {EquipmentSlot.MAINHAND}));
+            new SmashingEnchantment(Enchantment.Rarity.UNCOMMON, null, new EquipmentSlot[] {EquipmentSlot.MAINHAND}));
 
     private static Enchantment register(String name, Enchantment enchantment) {
         return Registry.register(Registries.ENCHANTMENT, new Identifier(Starcana.MOD_ID, name), enchantment);
