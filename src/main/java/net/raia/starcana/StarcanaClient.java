@@ -5,7 +5,7 @@ import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.entity.Entity;
+import net.raia.starcana.client.particle.StarcanaParticle;
 import net.raia.starcana.entity.StarcanaEntities;
 import net.raia.starcana.entity.client.*;
 import net.raia.starcana.item.Starcanaitems;
@@ -23,7 +23,7 @@ public class StarcanaClient implements ClientModInitializer {
         EntityRendererRegistry.register(StarcanaEntities.STAR_PRONG, StarProngRenderer::new);
 
         TrinketRendererRegistry.registerRenderer(Starcanaitems.STAR_PRONG, (TrinketRenderer) Starcanaitems.STAR_PRONG);
-
+        StarcanaParticle.registerParticleFactory();
 
 
 

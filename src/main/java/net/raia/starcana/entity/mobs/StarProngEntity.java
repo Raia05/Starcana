@@ -33,6 +33,7 @@ import net.minecraft.world.explosion.ExplosionBehavior;
 import net.raia.starcana.entity.StarcanaEntities;
 import net.raia.starcana.item.Starcanaitems;
 import net.raia.starcana.sounds.StarcanaSounds;
+import net.raia.starcana.utils.helper.StarcanaEnchantmentHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
@@ -184,7 +185,11 @@ public class StarProngEntity extends PersistentProjectileEntity {
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
-        knockbackNearbyEntities(this.getWorld(), this);
+        if (StarcanaEnchantmentHelper.getSmashing(ProngStack) > 0)
+        {
+            knockbackNearbyEntities(this.getWorld(), this);
+
+        }
         super.onBlockHit(blockHitResult);
     }
 
@@ -248,6 +253,7 @@ public class StarProngEntity extends PersistentProjectileEntity {
     private double getKnockback(LivingEntity attacked, Vec3d distance) {
         return (3.5 - distance.length())
                 * 0.7F
+                * StarcanaEnchantmentHelper.getSmashing(ProngStack)
                 * (1.0 - attacked.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE));
     }
 

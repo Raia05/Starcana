@@ -13,7 +13,7 @@ import java.awt.*;
 public class DefaultParticleBuilderFactory implements ParticleBuilderFactory{
     @Override
     public void build(World level, Vec3d pos, Color startingColor, Color endingColor) {
-        WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
+        WorldParticleBuilder.create(StarcanaParticle.HEXAGON)
                 .setScaleData(GenericParticleData.create(2f, 1f, 0f).build())
                 .setTransparencyData(GenericParticleData.create(2f).build())
                 .setColorData(ColorParticleData.create(startingColor, endingColor).setCoefficient(1.4f).setEasing(Easing.ELASTIC_IN).build())
