@@ -77,8 +77,15 @@ public class FallenStarRenderer extends EntityRenderer<FallenStarEntity> {
         WorldParticleBuilder.create(LodestoneParticleRegistry.SPARK_PARTICLE)
                 .setScaleData(GenericParticleData.create((1f + entity.getWorld().random.nextFloat() / 3f)).build())
                 .setColorData(ColorParticleData.create(StarcanaColors.Magenta[2], StarcanaColors.Magenta[6]).build())
-                .setLifetime(10)
+                .setLifetime(5)
                 .setSpinData(SpinParticleData.create((float) (entity.getWorld().random.nextGaussian() / 10000f)).setSpinOffset(entity.getWorld().random.nextFloat() * 360f).build())
+                .spawn(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
+
+        WorldParticleBuilder.create(LodestoneParticleRegistry.TWINKLE_PARTICLE)
+                .setScaleData(GenericParticleData.create(.5f, 0).build())
+                .setColorData(ColorParticleData.create(StarcanaColors.Magenta[6], StarcanaColors.Magenta[8]).build())
+                .setLifetime(10)
+                .setRandomOffset(entity.getWorld().random.nextFloat()*5)
                 .spawn(entity.getWorld(), entity.getX(), entity.getY(), entity.getZ());
 
         assert MinecraftClient.getInstance().player != null;
