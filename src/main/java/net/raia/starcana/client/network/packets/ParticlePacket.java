@@ -6,6 +6,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.raia.starcana.client.particle.DefaultParticleBuilderFactory;
 import net.raia.starcana.client.particle.ParticleBuilderFactory;
+import net.raia.starcana.client.particle.ParticleBuilderFactoryRegistry;
 
 
 import java.awt.*;
@@ -13,21 +14,20 @@ public class ParticlePacket {
     private final Vec3d position;
     private final int startingColor;
     private final int endingColor;
-    private final ParticleBuilderFactory particleBuilderFactory;
+    private final String factoryId;
 
-
-    public ParticlePacket(Vec3d position, int startingColor, int endingColor, ParticleBuilderFactory particleBuilderFactory) {
+    public ParticlePacket(Vec3d position, int startingColor, int endingColor, String factoryId) {
         this.position = position;
         this.startingColor = startingColor;
         this.endingColor = endingColor;
-        this.particleBuilderFactory = particleBuilderFactory;
+        this.factoryId = factoryId;
     }
 
     public ParticlePacket(PacketByteBuf buf) {
         this.position = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
         this.startingColor = buf.readInt();
         this.endingColor = buf.readInt();
-        this.particleBuilderFactory = new DefaultParticleBuilderFactory(); // Use default factory if none provided
+        this.factoryId = buf.readString(32767);
     }
 
     public void toBytes(PacketByteBuf buf) {
@@ -36,6 +36,7 @@ public class ParticlePacket {
         buf.writeDouble(position.z);
         buf.writeInt(startingColor);
         buf.writeInt(endingColor);
+        buf.writeString(factoryId);
     }
 
     public void handle(MinecraftClient client) {
@@ -44,7 +45,10 @@ public class ParticlePacket {
             if (level != null) {
                 Color startColor = new Color(startingColor);
                 Color endColor = new Color(endingColor);
-                particleBuilderFactory.build(level, position, startColor, endColor);
+                ParticleBuilderFactory factory = ParticleBuilderFactoryRegistry.getFactory(factoryId);
+                if (factory != null) {
+                    factory.build(level, position, startColor, endColor);
+                }
             }
         });
     }

@@ -12,6 +12,7 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.Registries;
 import net.raia.starcana.Starcana;
+import net.raia.starcana.client.particle.prong.SmashingParticleBulder;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -33,6 +34,8 @@ public class StarcanaParticle{
         ParticleFactoryRegistry.getInstance().register(HEXAGON.get(), LodestoneWorldParticleType.Factory::new);
         ParticleFactoryRegistry.getInstance().register(CIRCLE.get(), LodestoneWorldParticleType.Factory::new);
 
+        ParticleBuilderFactoryRegistry.registerFactory("smashing", new SmashingParticleBulder());
+        ParticleBuilderFactoryRegistry.registerFactory("default", new DefaultParticleBuilderFactory());
 
         ParticleFactoryRegistry.getInstance().register(GUST.get(), SweepAttackParticle.Factory::new);
 

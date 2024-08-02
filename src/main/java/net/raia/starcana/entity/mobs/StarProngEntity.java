@@ -1,5 +1,7 @@
 package net.raia.starcana.entity.mobs;
 
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -14,11 +16,10 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -28,14 +29,21 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
-import net.minecraft.world.explosion.ExplosionBehavior;
+import net.raia.starcana.client.network.packets.ParticlePacket;
+import net.raia.starcana.client.network.packets.StarcanaPackets;
+import net.raia.starcana.client.particle.CompositeParticleBuilderFactory;
+import net.raia.starcana.client.particle.ParticleBuilderFactory;
+import net.raia.starcana.client.particle.prong.SmashingParticleBulder;
+import net.raia.starcana.client.particle.prong.SmashingParticleFollowBulder;
 import net.raia.starcana.entity.StarcanaEntities;
 import net.raia.starcana.item.Starcanaitems;
 import net.raia.starcana.sounds.StarcanaSounds;
+import net.raia.starcana.utils.StarcanaColors;
 import net.raia.starcana.utils.helper.StarcanaEnchantmentHelper;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class StarProngEntity extends PersistentProjectileEntity {
@@ -188,7 +196,15 @@ public class StarProngEntity extends PersistentProjectileEntity {
         if (StarcanaEnchantmentHelper.getSmashing(ProngStack) > 0)
         {
             knockbackNearbyEntities(this.getWorld(), this);
+            String factoryId = "smashing"; // The identifier for SmashingParticleBuilder
+            ParticlePacket packet = new ParticlePacket(this.getPos(), StarcanaColors.Magenta[4].getRGB(), StarcanaColors.Magenta[7].getRGB(), factoryId);
+            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+            packet.toBytes(buf);
+            for (Entity player : getPlayers(this))
+            {
+                ServerPlayNetworking.send((ServerPlayerEntity) player, StarcanaPackets.PARTICLE_SPAWN_ID, buf);
 
+            }
         }
         super.onBlockHit(blockHitResult);
     }
@@ -203,18 +219,27 @@ public class StarProngEntity extends PersistentProjectileEntity {
         return true;
     }
 
+    private List<Entity> getPlayers(Entity prong)
+    {
+        return prong.getWorld().getOtherEntities(this ,prong.getBoundingBox().expand(30), particlePredicate());
+    }
 
     private void knockbackNearbyEntities(World world, Entity prong) {
-        world.getEntitiesByClass(LivingEntity.class, prong.getBoundingBox().expand(3.5), getKnockbackPredicate(this.getOwner(), prong)).forEach(entity -> {
+        world.getEntitiesByClass(LivingEntity.class, prong.getBoundingBox().expand(5), getKnockbackPredicate(this.getOwner(), prong)).forEach(entity -> {
             Vec3d vec3d = entity.getPos().subtract(prong.getPos());
             double d = getKnockback(entity, vec3d);
             Vec3d vec3d2 = vec3d.normalize().multiply(d);
-            if (d > 0.0 && !this.isOwner(entity)) {
+            if (d > 0.0) {
                 entity.addVelocity(vec3d2.x, 0.7F, vec3d2.z);
 
             }
         });
     }
+    private static Predicate<? super Entity> particlePredicate()
+    {
+        return Entity::isPlayer;
+    }
+
     private static Predicate<LivingEntity> getKnockbackPredicate(Entity player, Entity attacked) {
         return entity -> {
             boolean bl;
@@ -223,7 +248,7 @@ public class StarProngEntity extends PersistentProjectileEntity {
             boolean var10000;
             label62: {
                 bl = !entity.isSpectator();
-                bl2 = entity != player && entity != attacked;
+                bl2 = entity != attacked;
                 bl3 = !player.isTeammate(entity);
                 if (entity instanceof TameableEntity tameableEntity && tameableEntity.isTamed() && player.getUuid().equals(tameableEntity.getOwnerUuid())) {
                     var10000 = true;

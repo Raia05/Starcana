@@ -5,5 +5,7 @@
   "itemgroup.starcana": "Starcana",
   "entity.starcana.fallen_star": "Fallen Star",
   "entity.starcana.shooting_star": "Shooting Star",
+
+  "enchantment.starcana.smashing": "Smashing",
   "effect.starcana.star_searcher": "Star Searcher"
 }
