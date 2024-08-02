@@ -10,7 +10,6 @@ import net.minecraft.client.particle.SpriteBillboardParticle;
 import net.minecraft.client.particle.SweepAttackParticle;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleType;
-import net.minecraft.particle.ParticleTypes
 import net.minecraft.registry.Registries;
 import net.raia.starcana.Starcana;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
