@@ -8,6 +8,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.raia.starcana.Starcana;
+import net.raia.starcana.block.StarcanaBlocks;
 
 public class StarcanaItemGroups {
 
@@ -18,6 +19,8 @@ public class StarcanaItemGroups {
                         entries.add(Starcanaitems.STAR_SHARD);
                         entries.add(Starcanaitems.DEBUG_WAND);
                         entries.add(Starcanaitems.STAR_PRONG);
+                        entries.add(StarcanaBlocks.STAR_GLASS);
+                        entries.add(StarcanaBlocks.STARLANTERN);
 
 
                     }).build());

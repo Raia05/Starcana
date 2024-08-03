@@ -4,5 +4,17 @@
     "sounds": [
       "starcana:prong/prong_hit_ground"
     ]
+  },
+  "star_glass_change": {
+    "subtitle": "sounds.starcana.glass_switch",
+    "sounds": [
+      "starcana:glass/switch"
+    ]
+  },
+  "star_glass_interact": {
+    "subtitle": "sounds.starcana.glass_interact",
+    "sounds": [
+      "starcana:glass/interact"
+    ]
   }
 }

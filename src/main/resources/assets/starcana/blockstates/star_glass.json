@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "covered=false": {
+      "model": "starcana:block/star_glass_off"
+    },
+    "covered=true": {
+      "model": "starcana:block/star_glass_on"
+    }
+  }
+}

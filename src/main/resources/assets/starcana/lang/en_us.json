@@ -3,9 +3,13 @@
   "item.starcana.debug_wand": "Debug Wand",
   "item.starcana.star_prong": "Resonance Prong",
   "itemgroup.starcana": "Starcana",
+
+  "block.starcana.star_glass": "Star Glass",
+
   "entity.starcana.fallen_star": "Fallen Star",
   "entity.starcana.shooting_star": "Shooting Star",
 
   "enchantment.starcana.smashing": "Smashing",
+
   "effect.starcana.star_searcher": "Star Searcher"
 }

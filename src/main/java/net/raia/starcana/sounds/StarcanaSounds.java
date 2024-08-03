@@ -9,6 +9,10 @@ import net.raia.starcana.Starcana;
 public class StarcanaSounds {
 
     public static final SoundEvent PRONG_HIT_GROUND = registerSoundEvent("prong_hit_ground");
+    public static final SoundEvent STAR_GLASS_CHANGE = registerSoundEvent("star_glass_change");
+    public static final SoundEvent STAR_GLASS_INTERACT = registerSoundEvent("star_glass_interact");
+
+
 
 
     private static SoundEvent registerSoundEvent(String name) {
